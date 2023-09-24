@@ -16,6 +16,21 @@ To view environment info to add to vscode use
 poetry env info
 ```
 
+## Running
+
+### Local
+
+```sh
+poetry shell
+python -m app
+```
+
+### Production
+
+```sh
+./start.sh
+```
+
 ## Structure
 
 TODO

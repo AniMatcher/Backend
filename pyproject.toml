@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "nutripal-backend"
+version = "0.1.0"
+description = ""
+authors = ["Arnav Jindal <arnav.jindal7@gmail.com>"]
+readme = "README.md"
+packages = [{include = "nutripal_backend"}]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = "^0.103.1"
+gunicorn = "^21.2.0"
+uvicorn = "^0.23.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

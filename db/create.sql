@@ -1,17 +1,19 @@
 -- Users table
-CREATE TABLE Users (
-    uuid uuid REFERENCES Auth(uuid),
-    username TEXT Auth(username),
-    gender VARCHAR(2) NOT NULL CHECK (gender IN ('M', 'F', 'NB')),
-    sex_pref VARCHAR(1) NOT NULL CHECK (sex_pref in ('A', 'B', 'C', 'D', 'E', 'F', 'G')),
-    genre TEXT NOT NULL,
-    bio TEXT NOT NULL
-);
+create table
+  Users (
+    id bigint primary key generated always as identity,
+    uuid uuid references auth (uuid),
+    username text references auth (username),
+    gender varchar(2) not null check (gender in ('M', 'F', 'NB')),
+    sex_pref varchar(1) not null check (sex_pref in ('A', 'B', 'C', 'D', 'E', 'F', 'G')),
+    genre text not null,
+    bio text not null
+  );
 
 -- Auth table
-CREATE TABLE Auth (
-    uuid uuid default gen_random_uuid() PRIMARY KEY,
-    email TEXT UNIQUE NOT NULL,
-    username TEXT UNIQUE,
-    password_hash TEXT NOT NULL
-);
+create table
+  auth (
+    uuid uuid default gen_random_uuid () primary key,
+    email text unique not null,
+    username text unique
+  );

@@ -1,4 +1,4 @@
-from db import db_client 
+from ..db import db_client 
 
 def get_user_by_uuid(uuid: str):
     return db_client.client.table("Users").select("*").eq("uuid", uuid).execute()

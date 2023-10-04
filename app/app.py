@@ -1,6 +1,5 @@
 from fastapi import FastAPI, APIRouter
-from .routers import database
-from .routers import anime,users
+from .routers import anime,users,database
 
 app = FastAPI()
 router: APIRouter = APIRouter()

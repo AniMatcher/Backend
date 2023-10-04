@@ -1,5 +1,5 @@
 from fastapi import FastAPI, APIRouter, Depends, HTTPException
-from db.crud import get_user_by_uuid, check_user_existence, post_user_auth
+from ..db.crud import get_user_by_uuid, check_user_existence, post_user_auth
 #from .. import files
 
 router = APIRouter(

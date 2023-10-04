@@ -19,8 +19,8 @@ def get_user(uuid: str):
 def check_user(email: str):
     user_data = check_user_existence(email)
     if user_data is None:
-        return False 
-    return True 
+        return {"status": False} 
+    return {"status": True} 
 
 @router.post("/")
 def create_user_auth(uuid: str, email: str, username: str, password_hash: str):

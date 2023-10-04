@@ -1,5 +1,6 @@
 from fastapi import FastAPI, APIRouter
 from .routers import database
+from .routers import users
 
 app = FastAPI()
 router: APIRouter = APIRouter()
@@ -16,3 +17,4 @@ def hello_world():
 	Look below for example code
 """
 app.include_router(database.router)
+app.include_router(users.router)

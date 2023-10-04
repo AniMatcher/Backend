@@ -11,16 +11,16 @@ router = APIRouter(
 @router.get("/uuid/{uuid}")
 def get_user(uuid: str):
     user_data = get_user_by_uuid(uuid)
-    if user_data is None:
+    if not user_data.data:
         raise HTTPException(status_code=404, detail="User not found")
     return user_data
 
 @router.get("/email/{email}")
 def check_user(email: str):
     user_data = check_user_existence(email)
-    if user_data is None:
-        return {"status": False} 
-    return {"status": True} 
+    if user_data.data:
+        return {"status": True} 
+    return {"status": False} 
 
 @router.post("/")
 def create_user_auth(uuid: str, email: str, username: str, password_hash: str):

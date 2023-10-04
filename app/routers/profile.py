@@ -4,7 +4,11 @@ import json
 #from .. import files
 
 router = APIRouter(
-    prefix="/login", 
-    tags=["login"],
+    prefix="/profile", 
+    tags=["profile"],
     responses={404: {"description": "Not Found"}}
     )
+
+@router.post("/")
+def make_user_profile():
+    pass

@@ -18,3 +18,4 @@ def hello_world():
 	Look below for example code
 """
 app.include_router(database.router)
+app.include_router(anime.router)

@@ -15,5 +15,6 @@ create table
   auth (
     uuid uuid default gen_random_uuid () primary key,
     email text unique not null,
-    username text unique
+    username text unique,
+    password_hash text not null
   );

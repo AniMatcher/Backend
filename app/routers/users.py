@@ -8,14 +8,14 @@ router = APIRouter(
     responses={404: {"description": "Not Found"}}
     )
 
-@router.get("/{uuid}")
+@router.get("/uuid/{uuid}")
 def get_user(uuid: str):
     user_data = get_user_by_uuid(uuid)
     if user_data is None:
         raise HTTPException(status_code=404, detail="User not found")
     return user_data
 
-@router.get("/{email}")
+@router.get("/email/{email}")
 def check_user(email: str):
     user_data = check_user_existence(email)
     if user_data is None:

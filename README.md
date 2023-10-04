@@ -1,6 +1,6 @@
-# NutriPal-Backend
+# AniMatcher-Backend
 
-FastAPI backend for NutriPal
+FastAPI backend for AniMatcher
 
 ## Setup
 

@@ -1,4 +1,6 @@
 from fastapi import FastAPI, APIRouter
+from fastapi.middleware.cors import CORSMiddleware
+
 from .routers import anime,users,database, profile
 from fastapi.responses import JSONResponse, RedirectResponse
 from fastapi.middleware.cors import CORSMiddleware

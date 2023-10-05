@@ -1,5 +1,6 @@
 from fastapi import FastAPI, APIRouter, Depends, HTTPException
 from ..db.crud import get_user_by_uuid, check_user_existence, post_user_auth
+from pydantic import BaseModel
 #from .. import files
 
 router = APIRouter(
@@ -23,9 +24,15 @@ def check_user(email: str):
         return {"status": True} 
     return {"status": False} 
 
+class UserAuthPost(BaseModel):
+    uuid: str
+    email: str
+    username: str
+    password_hash: str
+
 @router.post("/")
-def create_user_auth(uuid: str, email: str, username: str, password_hash: str):
-    response = post_user_auth(uuid, email, username, password_hash)
+def create_user_auth(auth_body: UserAuthPost):
+    response = post_user_auth(auth_body.uuid, auth_body.email, auth_body.username, auth_body.password_hash)
     if not response:
         raise HTTPException(status_code=500, detail="Error creating user")
     return {"message": "User created successfully"}

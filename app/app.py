@@ -1,5 +1,5 @@
 from fastapi import FastAPI, APIRouter
-from .routers import anime,users,database
+from .routers import anime,users,database, profile
 from fastapi.responses import JSONResponse, RedirectResponse
 
 app = FastAPI()
@@ -30,3 +30,4 @@ async def internal_server_error(req, exc):
 app.include_router(database.router)
 app.include_router(users.router)
 app.include_router(anime.router)
+app.include_router(profile.router)

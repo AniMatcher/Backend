@@ -25,14 +25,13 @@ def check_user(email: str):
     return {"status": False} 
 
 class UserAuthPost(BaseModel):
-    uuid: str
     email: str
     username: str
     password_hash: str
 
 @router.post("/")
 def create_user_auth(auth_body: UserAuthPost):
-    response = post_user_auth(auth_body.uuid, auth_body.email, auth_body.username, auth_body.password_hash)
+    response = post_user_auth( auth_body.email, auth_body.username, auth_body.password_hash)
     if not response:
         raise HTTPException(status_code=500, detail="Error creating user")
     return {"message": "User created successfully"}

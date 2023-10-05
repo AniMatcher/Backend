@@ -10,3 +10,4 @@ def post_anime(anime:Anime):
         "type": anime.type
         }).execute()
 
+

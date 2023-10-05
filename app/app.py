@@ -1,9 +1,24 @@
 from fastapi import FastAPI, APIRouter
 from .routers import anime,users,database, profile
 from fastapi.responses import JSONResponse, RedirectResponse
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 router: APIRouter = APIRouter()
+
+origins = [
+    "https://animatcher.xyz",
+    "http://localhost",
+    "http://localhost:3000",
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.get("/")
 def hello_world():

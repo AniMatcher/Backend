@@ -2,34 +2,52 @@ from fastapi import FastAPI, APIRouter
 import requests
 import json
 from ..anime_schema import Anime
-from ..db.anime_crud import post_anime
+from ..db import anime_crud as Anime_Crud 
 
 router = APIRouter(
     prefix="/anime", 
     tags=["anime"],
     responses={404: {"description": "Not Found"}}
     )
+# var options = {
+#   uri: 'https://anilist.co/api/v2/oauth/token',
+#   method: 'POST',
+#   headers: {
+#     'Content-Type': 'application/json',
+#     'Accept': 'application/json',
+#   },
+#   json: {
+#     'grant_type': 'authorization_code',
+#     'client_id': '{client_id}',
+#     'client_secret': '{client_secret}',
+#     'redirect_uri': '{redirect_uri}', // http://example.com/callback
+#     'code': '{code}', // The Authorization Code received previously
+#   }
+# };
+@router.get("/token")
+def get_anilist_token():
+    url = 'https://anilist.co/api/v2/oauth/token'
+    headers = {
+        'Content-Type' : 'application/json',
+        'Accept' : 'application/json'
+    }
+    client_id =''
+    client_secret = ''
+    redirect_uri = ''
+    code = ''
+    json = {
+     'grant_type': 'authorization_code',
+     'client_id': f'{client_id}',
+     'client_secret': f'{client_secret}',
+     'redirect_uri': f'{redirect_uri}', 
+     'code': f'{code}'   
+    }
 
 @router.get("/")
-def get_info():
-    return "but"
+def get_info(aid):
+    return Anime_Crud.get_anime(aid=aid)
 
 @router.post("/")
-def add_anime_to_api():
-    animes = []
-    for id in range(1,2):
-        url = f'https://api.jikan.moe/v4/anime/{id}/full'
-        content = json.loads(requests.get(url).content)['data']
-        vid_type = content['type'] #should be TV or Movie
-        anime = Anime(
-            anime_id=int(content['mal_id']),
-            anime_name=content['title'],
-            type= vid_type,
-            genres="Romance", ###########################THIS NEEDS TO BE CHANGED
-            score=float(content['score']),
-            synopsis=content['synopsis'],
-        )
-        #print(anime)
-        animes.append(anime.model_dump_json())
-        post_anime(anime=anime)
-    return animes
+def add_anime_to_api(anime: Anime):
+    Anime_Crud.post_anime(anime=anime)
+    return anime

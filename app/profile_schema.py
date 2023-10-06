@@ -8,3 +8,11 @@ class Profile(BaseModel):
     sex_pref: str
     genre: str
     bio: str
+
+class UserAnimesPost(BaseModel):
+    email: str
+    animes: list[str]
+
+class UserAnimes(BaseModel):
+    uuid: str
+    animes: list[str]

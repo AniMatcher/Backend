@@ -32,10 +32,10 @@ def hello_world():
 async def internal_server_error(req, exc):
     e_str = str(exc)
     return JSONResponse(status_code=500,
-                        content={
-                            "message": "Internal Server Error",
-                            "error": e_str
-                        })
+    content={
+        "message": "Internal Server Error",
+        "error": e_str
+    })
 
 #includes all the routers from the router folder
 """

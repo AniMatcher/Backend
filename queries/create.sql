@@ -15,3 +15,4 @@ CREATE TABLE Auth (
     username TEXT UNIQUE,
     password_hash TEXT NOT NULL
 );
+

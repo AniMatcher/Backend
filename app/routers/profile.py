@@ -1,8 +1,7 @@
 from fastapi import FastAPI, APIRouter, Depends, HTTPException
-
-from ..db.profile_crud import post_new_user
-from ..db.crud import get_user_by_uuid, check_user_existence, post_user_auth
-from ..profile_schema import Profile
+from ..db.profile_crud import post_new_user, user_animes
+from ..db.crud import check_user_existence, get_user_by_uuid
+from ..profile_schema import Profile, UserAnimesPost, UserAnimes
 from pydantic import BaseModel
 #from .. import files
 
@@ -49,3 +48,17 @@ async def make_user_profile(profile: PostProfile):
     if not response:
         raise HTTPException(status_code = 500, detail = "Error creating user")
     return {"message": "Profile created successfully"}
+
+@router.post("/animes/")
+async def make_user_profile(profile: UserAnimesPost):
+    matched_users = check_user_existence(profile.email)
+    if not matched_users.data: 
+        raise HTTPException(status_code = 500, detail = "Error invalid email")
+    else:
+        uuid = matched_users.data[0]["uuid"]
+        uas = UserAnimes(uuid=uuid, animes=profile.animes)
+        results =  user_animes(animes=uas)
+        if not results:
+            raise HTTPException(status_code = 500, detail = "Error creating user")
+        return {"message": "Profile created successfully"}
+

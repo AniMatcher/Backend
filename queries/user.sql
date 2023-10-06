@@ -18,9 +18,9 @@ create table
     check (sex_pref in ('A', 'B', 'C', 'D', 'E', 'F', 'G'))
   );
 
-create table useranimes (
-    uuid uuid primary key,
-    aid integer unique,
-    foreign key(uuid) references users(uuid),
-    foreign key(aid) references animes(aid)
-);
+create table
+  user_animes (
+    uuid uuid,
+    aid integer,
+    primary key (uuid, aid)
+  )

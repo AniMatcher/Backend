@@ -7,7 +7,7 @@ def post_new_user(profile:Profile):
 
 
 def user_animes(animes: UserAnimes):
-    data = [{"uuid": animes.uuid, "aid": anime} for anime in animes.anime]
+    data = [{"uuid": animes.uuid, "aid": anime} for anime in animes.animes]
     return db_client.client.table("user_animes").insert(data).execute()
 
 

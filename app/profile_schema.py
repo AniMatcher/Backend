@@ -11,8 +11,8 @@ class Profile(BaseModel):
 
 class UserAnimesPost(BaseModel):
     email: str
-    animes: list[str]
+    animes: list[int]
 
 class UserAnimes(BaseModel):
     uuid: str
-    animes: list[str]
+    animes: list[int]

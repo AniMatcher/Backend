@@ -1,5 +1,5 @@
 from fastapi import FastAPI, APIRouter, Depends, HTTPException
-from ..db.crud import get_user_by_uuid, check_user_existence, post_user_auth
+from ..db import users_crud, auth_crud
 from pydantic import BaseModel
 #from .. import files
 
@@ -11,7 +11,7 @@ router = APIRouter(
 
 @router.get("/uuid/{uuid}")
 def get_user(uuid: str):
-    user_data = get_user_by_uuid(uuid)
+    user_data = users_crud.get_user_by_uuid(uuid)
     print(uuid, user_data)
     if not user_data.data:
         raise HTTPException(status_code=404, detail="User not found")
@@ -19,7 +19,7 @@ def get_user(uuid: str):
 
 @router.get("/email/{email}")
 def check_user(email: str):
-    user_data = check_user_existence(email)
+    user_data = auth_crud.check_email_user_existence(email)
     if user_data.data:
         return {"status": True} 
     return {"status": False} 
@@ -31,7 +31,7 @@ class UserAuthPost(BaseModel):
 
 @router.post("/")
 def create_user_auth(auth_body: UserAuthPost):
-    response = post_user_auth( auth_body.email, auth_body.username, auth_body.password_hash)
+    response = auth_crud.post_user_auth( auth_body.email, auth_body.username, auth_body.password_hash)
     if not response:
         raise HTTPException(status_code=500, detail="Error creating user")
     return {"message": "User created successfully"}

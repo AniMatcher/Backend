@@ -2,7 +2,7 @@ from fastapi import FastAPI, APIRouter
 import requests
 import json
 from ..anime_schema import Anime
-from ..db import anime_crud as Anime_Crud 
+from ..db import anime_crud
 
 router = APIRouter(
     prefix="/anime", 
@@ -45,9 +45,9 @@ def get_anilist_token():
 
 @router.get("/")
 def get_info(aid):
-    return Anime_Crud.get_anime(aid=aid)
+    return anime_crud.get_anime(aid=aid)
 
 @router.post("/")
 def add_anime_to_api(anime: Anime):
-    Anime_Crud.post_anime(anime=anime)
+    anime_crud.post_anime(anime=anime)
     return anime

@@ -1,6 +1,6 @@
 from fastapi import FastAPI, APIRouter, Depends, HTTPException
 from ..db import profile_crud, anime_crud, users_crud, auth_crud
-from ..profile_schema import Profile, UserAnimesPost, UserAnimes
+from ..schemas.profile_schema import Profile, UserAnimesPost, UserAnimes
 from pydantic import BaseModel
 import requests
 #from .. import files
@@ -20,7 +20,11 @@ class PostProfile(BaseModel):
     bio: str
 
 @router.get("/email/{email}")
+
 async def get_user_profile(email: str):
+    '''
+        Gets User Profile data from the Users Table + the images of the anime the user likes
+    '''
     matched_users = auth_crud.check_email_user_existence(email)
     if not matched_users.data:
         raise HTTPException(status_code=500, detail="Email not found")

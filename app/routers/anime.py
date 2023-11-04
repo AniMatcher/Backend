@@ -1,7 +1,7 @@
 from fastapi import FastAPI, APIRouter
 import requests
 import json
-from ..anime_schema import Anime
+from ..schemas.anime_schema import Anime
 from ..db import anime_crud
 
 router = APIRouter(

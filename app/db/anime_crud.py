@@ -1,5 +1,5 @@
 from ..db import db_client 
-from ..anime_schema import Anime
+from ..schemas.anime_schema import Anime
 
 table = db_client.client.table("anime") 
 

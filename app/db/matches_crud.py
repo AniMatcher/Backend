@@ -10,10 +10,13 @@ def get_user_liked(uuid):
     '''
     return table.select("*").eq("uuid",uuid).execute()
 
-def delete_matches():
+def delete_matches(curr_uuid, foreign_uuid):
     '''
         If a user deletes their account or simply unmatches it will get rid of both rows for both users
     '''
+    table.delete().match({'uuid':curr_uuid, 'liked_user':foreign_uuid}).execute()
+    table.delete().match({'uuid':foreign_uuid, 'liked_user':curr_uuid}).execute()
+
 
 def create_user_liked(curr_uuid, foreign_uuid, match:bool):
     '''

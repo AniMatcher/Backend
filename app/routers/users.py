@@ -1,6 +1,8 @@
 from fastapi import FastAPI, APIRouter, Depends, HTTPException
-from ..db import users_crud, auth_crud
+from ..db import users_crud, auth_crud, matches_crud
+from ..schemas.matches_schema import Matches
 from pydantic import BaseModel
+import random
 #from .. import files
 
 router = APIRouter(
@@ -9,8 +11,77 @@ router = APIRouter(
     responses={404: {"description": "Not Found"}}
     )
 
+@router.post("/matches")
+def like_user(match: Matches):
+    '''
+        Allows a current user to like another person on the potential list of people
+    '''
+    user_data = auth_crud.check_email_user_existence(match.user_email)
+    foreign_user_data = auth_crud.check_email_user_existence(match.liked_email)
+    if not user_data.data or not foreign_user_data.data:
+        raise HTTPException(status_code = 500, detail = "Error invalid email")
+    else: 
+        user_uuid = user_data.data[0]["uuid"]
+        foreign_uuid = foreign_user_data.data[0]["uuid"]
+
+        foreign_liked_users = matches_crud.get_user_liked(foreign_uuid).data #list of people the person you liked likes
+        for i in range(len(foreign_liked_users)):
+            uid = foreign_liked_users[i]['liked_user']
+            foreign_liked_users[i] = auth_crud.get_email_from_uuid(uid).data[0]['email']
+        if match.user_email in foreign_liked_users: #if the foreign user has liked the current user they match
+            matches_crud.create_user_liked(user_uuid, foreign_uuid, True)
+        else: # the foreign user has not liked the current user so the current user likes the foreign user
+            matches_crud.create_user_liked(user_uuid, foreign_uuid, False)
+
+
+@router.get("/matches")
+def get_potential_matches(email:str):
+    '''
+        Returns a list of matches given a UUID of the person
+    '''
+    user_data = auth_crud.check_email_user_existence(email)
+    if not user_data.data: 
+        raise HTTPException(status_code = 500, detail = "Error invalid email")
+    else:
+        uuid = user_data.data[0]["uuid"]
+        sex_pref = users_crud.get_user_by_uuid(uuid).data[0]['sex_pref']
+        uuid_gender =  []
+        if sex_pref == 'A':
+            uuid_gender.append('M')
+        elif sex_pref == 'B':
+            uuid_gender.append('F')
+        elif sex_pref == 'C':
+            uuid_gender.append('NB')
+        elif sex_pref == 'D':
+            uuid_gender.append('M')
+            uuid_gender.append('F')
+        elif sex_pref == 'E':
+            uuid_gender.append('M')
+            uuid_gender.append('NB')
+        elif sex_pref == 'F':
+            uuid_gender.append('F')
+            uuid_gender.append('NB')
+        elif sex_pref == 'G':
+            uuid_gender.append('M')
+            uuid_gender.append('F')
+            uuid_gender.append('NB')
+        
+        user_liked_list = []
+        for genders in uuid_gender:
+            desired = users_crud.get_all_desired_user(genders, uuid).data
+            for i in desired:
+                user_liked_list.append(i)
+        if len(user_liked_list) == 0:
+            raise HTTPException(status_code=500, detail="no potential matches")
+        else:
+            random.shuffle(user_liked_list)
+            return user_liked_list
+
 @router.get("/uuid/{uuid}")
 def get_user(uuid: str):
+    '''
+        Gets user information based on uuid
+    '''
     user_data = users_crud.get_user_by_uuid(uuid)
     print(uuid, user_data)
     if not user_data.data:
@@ -19,6 +90,9 @@ def get_user(uuid: str):
 
 @router.get("/email/{email}")
 def check_user(email: str):
+    '''
+        check if a user exists based on email
+    '''
     user_data = auth_crud.check_email_user_existence(email)
     if user_data.data:
         return {"status": True} 
@@ -31,11 +105,13 @@ class UserAuthPost(BaseModel):
 
 @router.post("/")
 def create_user_auth(auth_body: UserAuthPost):
+    '''
+        Creates a user in the auth table based on email, username, & password
+    '''
     response = auth_crud.post_user_auth( auth_body.email, auth_body.username, auth_body.password_hash)
     if not response:
         raise HTTPException(status_code=500, detail="Error creating user")
     return {"message": "User created successfully"}
-
 
 
 

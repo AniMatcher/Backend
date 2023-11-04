@@ -1,5 +1,5 @@
 from ..db import db_client 
-from ..profile_schema import Profile, UserAnimes
+from ..schemas.profile_schema import Profile, UserAnimes
 
 table = db_client.client.table("users")
 
@@ -12,4 +12,9 @@ def get_user_by_email(email: str):
 def post_new_user(profile:Profile):
     return table.insert({"uuid": profile.uuid, "username": profile.username, "gender": profile.gender, "sex_pref": profile.sex_pref, "genre": profile.genre, "bio": profile.bio}).execute()
 
+def get_all_desired_user(gender:str, uuid):
+    '''
+        Gets all the users that are the desired gender and makes sure the user is not included. This function only supports choosing one gender.
+    '''
+    return table.select("*").eq("gender", gender).neq("uuid", uuid).execute()
 

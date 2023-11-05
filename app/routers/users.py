@@ -35,7 +35,7 @@ def like_user(match: Matches):
 
 
 @router.get("/matches")
-def get_potential_matches(email:str):
+def get_potential_matches(email:str, num:int):
     '''
         Returns a list of matches given a UUID of the person
     '''
@@ -75,7 +75,7 @@ def get_potential_matches(email:str):
             raise HTTPException(status_code=500, detail="no potential matches")
         else:
             random.shuffle(user_liked_list)
-            return user_liked_list
+            return user_liked_list[:num]
 
 @router.get("/uuid/{uuid}")
 def get_user(uuid: str):

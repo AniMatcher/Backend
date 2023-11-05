@@ -19,17 +19,16 @@ class PostProfile(BaseModel):
     genre: str
     bio: str
 
-@router.get("/email/{email}")
+@router.get("/uuid/{uuid}")
 
-async def get_user_profile(email: str):
+async def get_user_profile(uuid: str):
     '''
         Gets User Profile data from the Users Table + the images of the anime the user likes
     '''
-    matched_users = auth_crud.check_email_user_existence(email)
+    matched_users = auth_crud.check_uuid_user_existence(uuid)
     if not matched_users.data:
         raise HTTPException(status_code=500, detail="Email not found")
     else: 
-        uuid = matched_users.data[0]["uuid"]
         results =  profile_crud.get_user_animes(uuid).data
         aids = []
         for i in results:

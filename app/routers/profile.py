@@ -20,7 +20,6 @@ class PostProfile(BaseModel):
     bio: str
 
 @router.get("/uuid/{uuid}")
-
 async def get_user_profile(uuid: str):
     '''
         Gets User Profile data from the Users Table + the images of the anime the user likes
@@ -76,12 +75,11 @@ async def make_user_animes(profile: UserAnimesPost):
         return {"message": "Profile created successfully"}
 
 @router.get("/animes/")
-async def get_user_anime(email: str):
-    matched_users = auth_crud.check_email_user_existence(email)
+async def get_user_anime(uuid: str):
+    matched_users = auth_crud.check_uuid_user_existence(uuid)
     if not matched_users.data: 
         raise HTTPException(status_code = 500, detail = "Error invalid email")
     else:
-        uuid = matched_users.data[0]["uuid"]
         results =  profile_crud.get_user_animes(uuid).data
         aids = []
         for i in results:

@@ -35,15 +35,14 @@ def like_user(match: Matches):
 
 
 @router.get("/matches")
-def get_potential_matches(email:str, num:int):
+def get_potential_matches(uuid:str, num:int):
     '''
         Returns a list of matches given a UUID of the person
     '''
-    user_data = auth_crud.check_email_user_existence(email)
+    user_data = auth_crud.check_uuid_user_existence(uuid)
     if not user_data.data: 
         raise HTTPException(status_code = 500, detail = "Error invalid email")
     else:
-        uuid = user_data.data[0]["uuid"]
         sex_pref = users_crud.get_user_by_uuid(uuid).data[0]['sex_pref']
         uuid_gender =  []
         if sex_pref == 'A':
@@ -88,10 +87,10 @@ def get_user(uuid: str):
         raise HTTPException(status_code=404, detail="User not found")
     return user_data
 
-@router.get("/email/{email}")
+@router.get("/email/{uuid}")
 def check_user(email: str):
     '''
-        check if a user exists based on email
+        check if a user exists based on email. MUST BE EMAIL
     '''
     user_data = auth_crud.check_email_user_existence(email)
     if user_data.data:

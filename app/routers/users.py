@@ -28,7 +28,7 @@ def like_user(match: Matches):
         for i in range(len(foreign_liked_users)):
             uid = foreign_liked_users[i]['liked_user']
             foreign_liked_users[i] = uid #auth_crud.get_email_from_uuid(uid).data[0]['email']
-        if match.user_uuid in foreign_liked_users: #if the foreign user has liked the current user they match
+        if user_uuid in foreign_liked_users: #if the foreign user has liked the current user they match
             matches_crud.create_user_liked(user_uuid, foreign_uuid, True)
         else: # the foreign user has not liked the current user so the current user likes the foreign user
             matches_crud.create_user_liked(user_uuid, foreign_uuid, False)

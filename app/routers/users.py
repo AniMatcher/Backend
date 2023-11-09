@@ -11,6 +11,20 @@ router = APIRouter(
     responses={404: {"description": "Not Found"}}
     )
 
+
+@router.get("/mutuals/")
+def get_potential_matches(uuid:str):
+    user_data = auth_crud.check_uuid_user_existence(uuid)
+    if not user_data.data: 
+        raise HTTPException(status_code = 500, detail = "Error invalid email")
+    resp = matches_crud.get_mutuals(uuid).data
+    user_data = []
+    for match in resp:
+        user_uuid = match['liked_user']
+        user_data.append(dict(users_crud.get_user_by_uuid(user_uuid)))
+    return {"matches": user_data}
+
+
 @router.post("/matches")
 def like_user(match: Matches):
     '''

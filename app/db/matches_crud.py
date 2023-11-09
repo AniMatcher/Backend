@@ -29,3 +29,8 @@ def create_user_liked(curr_uuid, foreign_uuid, match:bool):
         table.upsert({'uuid': curr_uuid, 'liked_user': foreign_uuid, 'match': True}).execute()
         #update for both users since it is guaranteed that if they match they already have a row for each other
 
+def get_mutuals(uuid: str):
+    '''
+        Get users that have matched together
+    '''
+    return table.select("*").eq("uuid", uuid).eq("match", True).execute()

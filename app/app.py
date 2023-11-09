@@ -1,7 +1,7 @@
 from fastapi import FastAPI, APIRouter
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.routers import anime,users,database, profile
+from app.routers import anime,users,database, profile, chats
 from fastapi.responses import JSONResponse, RedirectResponse
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -48,3 +48,4 @@ app.include_router(database.router)
 app.include_router(users.router)
 app.include_router(anime.router)
 app.include_router(profile.router)
+app.include_router(chats.router)

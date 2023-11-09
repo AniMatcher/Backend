@@ -8,3 +8,4 @@ class Anime(BaseModel):
     genres: str
     synopsis: str 
     type: str
+

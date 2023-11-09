@@ -1,8 +1,10 @@
 from fastapi import FastAPI, APIRouter, Depends, HTTPException
-from ..db import profile_crud, anime_crud, users_crud, auth_crud
-from ..schemas.profile_schema import Profile, UserAnimesPost, UserAnimes
+from ..db import profile_crud, anime_crud, users_crud, auth_crud, s3_crud
+from ..schemas.profile_schema import Profile, UserAnimesPost, UserAnimes, UserProfileImage
 from pydantic import BaseModel
 import requests
+import boto3 
+import json
 #from .. import files
 
 router = APIRouter(
@@ -60,6 +62,18 @@ async def make_user_profile(profile: PostProfile):
     if not response:
         raise HTTPException(status_code = 500, detail = "Error creating user")
     return {"message": "Profile created successfully"}
+
+@router.post("/image")
+def upload_user_profile_image(image: UserProfileImage):
+    uuid = image.uuid
+    image_url = image.image
+    ##### FINISH METHOD #####
+    return ""
+
+@router.get("/image/{uuid}")
+def get_user_profile_image(uuid):
+    url = s3_crud.get_object_url(uuid)
+    return {'image_url': url}
 
 @router.post("/animes/")
 async def make_user_animes(profile: UserAnimesPost):

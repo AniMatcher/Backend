@@ -1,7 +1,7 @@
-from fastapi import FastAPI, APIRouter, WebSocket
+from fastapi import FastAPI, APIRouter
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.routers import anime,users,database, profile, chat
+from app.routers import anime,users,database, profile
 from fastapi.responses import JSONResponse, RedirectResponse
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -48,23 +48,3 @@ app.include_router(database.router)
 app.include_router(users.router)
 app.include_router(anime.router)
 app.include_router(profile.router)
-app.include_router(chat.router)
-
-class ConnectionManager:
-    """Class defining socket events"""
-    def __init__(self):
-        """init method, keeping track of connections"""
-        self.active_connections = []
-    
-    async def connect(self, websocket: WebSocket):
-        """connect event"""
-        await websocket.accept()
-        self.active_connections.append(websocket)
-
-    async def send_personal_message(self, message: str, websocket: WebSocket):
-        """Direct Message"""
-        await websocket.send_text(message)
-    
-    def disconnect(self, websocket: WebSocket):
-        """disconnect event"""
-        self.active_connections.remove(websocket)

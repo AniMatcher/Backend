@@ -16,3 +16,7 @@ class UserAnimesPost(BaseModel):
 class UserAnimes(BaseModel):
     uuid: str
     animes: list[int]
+
+class UserProfileImage(BaseModel):
+    uuid: str
+    image: str

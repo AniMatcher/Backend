@@ -65,6 +65,14 @@ async def make_user_profile(profile: PostProfile):
     else:
         uuid = matched_users.data[0]["uuid"]
         username = matched_users.data[0]["username"]
+        s3 = boto3.resource('s3')
+        img_data = BytesIO(base64.b64decode(profile.image.split(";base64,", 1)[1]))
+        img_data.seek(0)
+        bucket_name = ""
+        file_name = f"{uuid}_{datetime.now().isoformat().replace(' ','')}.{profile.image_name.split('_')[0].split('.')[1]}"
+        print(file_name)
+        url = s3_crud.upload_image(img_data, file_name)
+        print(url)
         profile = Profile(
             uuid= uuid,
             username= username,
@@ -87,14 +95,6 @@ async def make_mock_user_profile(profile: MockProfile):
     else:
         uuid = matched_users.data[0]["uuid"]
         username = matched_users.data[0]["username"]
-        s3 = boto3.resource('s3')
-        img_data = BytesIO(base64.b64decode(profile.image.split(";base64,", 1)[1]))
-        img_data.seek(0)
-        bucket_name = ""
-        file_name = f"{uuid}_{datetime.now().isoformat().replace(' ','')}.{profile.image_name.split('_')[0].split('.')[1]}"
-        print(file_name)
-        url = s3_crud.upload_image(img_data, file_name)
-        print(url)
         profile = Profile(
             uuid= uuid,
             username= username,

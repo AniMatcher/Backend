@@ -18,3 +18,14 @@ def get_all_desired_user(gender:str, uuid):
     '''
     return table.select("*").eq("gender", gender).neq("uuid", uuid).execute()
 
+def put_edit_user(profile: Profile):
+    update_data = {
+        "uuid": profile.uuid,
+        "username": profile.username,
+        "gender": profile.gender,
+        "sex_pref": profile.sex_pref,
+        "genre": profile.genre,
+        "bio": profile.bio
+    }
+    return table.update(update_data).eq("uuid", uuid).execute()
+

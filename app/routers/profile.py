@@ -63,6 +63,12 @@ async def make_user_profile(profile: PostProfile):
         raise HTTPException(status_code = 500, detail = "Error creating user")
     return {"message": "Profile created successfully"}
 
+@router.post("/edit-profile/")
+async def edit_user_profile(profile: Profile):
+    response = users_crud.put_edit_user(profile = profile)
+    if not response:
+        raise HTTPException(status_code = 500, detail = "Error creating user")
+
 @router.post("/image")
 def upload_user_profile_image(image: UserProfileImage):
     uuid = image.uuid

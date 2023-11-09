@@ -80,7 +80,7 @@ async def make_user_profile(profile: PostProfile):
             sex_pref= profile.sex_pref, 
             genre= profile.gender,
             bio=profile.bio,
-            image=profile.image_url
+            image=url
         )
         response = users_crud.post_new_user(profile = profile)
         if not response:
@@ -102,7 +102,7 @@ async def make_mock_user_profile(profile: MockProfile):
             sex_pref= profile.sex_pref, 
             genre= profile.gender,
             bio=profile.bio,
-            image=url
+            image=profile.image_url
         )
         response = users_crud.post_new_user(profile = profile)
         if not response:

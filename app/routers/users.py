@@ -16,13 +16,13 @@ def like_user(match: Matches):
     '''
         Allows a current user to like another person on the potential list of people
     '''
-    user_data = auth_crud.check_email_user_existence(match.user_email)
-    foreign_user_data = auth_crud.check_email_user_existence(match.liked_email)
+    user_data = auth_crud.check_uuid_user_existence(match.uuid)
+    foreign_user_data = auth_crud.check_uuid_user_existence(match.liked_uuid)
     if not user_data.data or not foreign_user_data.data:
         raise HTTPException(status_code = 500, detail = "Error invalid email")
     else: 
-        user_uuid = user_data.data[0]["uuid"]
-        foreign_uuid = foreign_user_data.data[0]["uuid"]
+        user_uuid = match.uuid
+        foreign_uuid = match.liked_uuid
 
         foreign_liked_users = matches_crud.get_user_liked(foreign_uuid).data #list of people the person you liked likes
         for i in range(len(foreign_liked_users)):

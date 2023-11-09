@@ -1,17 +1,20 @@
 from ..db import s3bucket_client
 #import s3bucket_client
+import boto3 
 client = s3bucket_client.client
-bucket_name = s3bucket_client.bucket
+bucket_name: str = s3bucket_client.bucket
 tag_key = 'public'
 tag_value = 'yes'
 
-def upload_image(file_name, store_as=None):
-    if store_as == None:
-        store_as = file_name
-    client.upload_file(file_name, bucket_name, store_as)
+def upload_image(file: bytes, store_as: str) -> str:
+    res = client.upload_fileobj(file, bucket_name, store_as)
     client.put_object_tagging(Bucket=bucket_name, Key=store_as, Tagging={
             'TagSet': [{"Key": tag_key, "Value" : tag_value}]
-        } )
+    })
+    location = client.get_bucket_location(Bucket=bucket_name)['LocationConstraint']
+    url = f"https://animatcher.s3.amazonaws.com/{store_as}"
+    return url
+
 
 def download_image(path_to_download, save_as=None):
     '''

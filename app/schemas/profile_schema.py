@@ -8,6 +8,7 @@ class Profile(BaseModel):
     sex_pref: str
     genre: str
     bio: str
+    image: str
 
 class UserAnimesPost(BaseModel):
     email: str

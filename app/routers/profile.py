@@ -4,6 +4,10 @@ from ..schemas.profile_schema import Profile, UserAnimesPost, UserAnimes, UserPr
 from pydantic import BaseModel
 import requests
 import boto3 
+from botocore.vendored import requests
+from io import BytesIO
+from datetime import datetime
+import base64
 import json
 #from .. import files
 
@@ -20,6 +24,8 @@ class PostProfile(BaseModel):
     sex_pref: str
     genre: str
     bio: str
+    image: str
+    image_name: str
 
 @router.get("/uuid/{uuid}")
 async def get_user_profile(uuid: str):
@@ -50,6 +56,14 @@ async def make_user_profile(profile: PostProfile):
     else:
         uuid = matched_users.data[0]["uuid"]
         username = matched_users.data[0]["username"]
+        s3 = boto3.resource('s3')
+        img_data = BytesIO(base64.b64decode(profile.image.split(";base64,", 1)[1]))
+        img_data.seek(0)
+        bucket_name = ""
+        file_name = f"{uuid}_{datetime.now().isoformat().replace(' ','')}.{profile.image_name.split('_')[0].split('.')[1]}"
+        print(file_name)
+        url = s3_crud.upload_image(img_data, file_name)
+        print(url)
         profile = Profile(
             uuid= uuid,
             username= username,
@@ -57,11 +71,12 @@ async def make_user_profile(profile: PostProfile):
             sex_pref= profile.sex_pref, 
             genre= profile.gender,
             bio=profile.bio,
+            image=url
         )
-    response = users_crud.post_new_user(profile = profile)
-    if not response:
-        raise HTTPException(status_code = 500, detail = "Error creating user")
-    return {"message": "Profile created successfully"}
+        response = users_crud.post_new_user(profile = profile)
+        if not response:
+            raise HTTPException(status_code = 500, detail = "Error creating user")
+        return {"message": "Profile created successfully"}
 
 @router.post("/edit-profile/")
 async def edit_user_profile(profile: Profile):
@@ -76,10 +91,10 @@ def upload_user_profile_image(image: UserProfileImage):
     ##### FINISH METHOD #####
     return ""
 
-@router.get("/image/{uuid}")
-def get_user_profile_image(uuid):
-    url = s3_crud.get_object_url(uuid)
-    return {'image_url': url}
+# @router.get("/image/{uuid}")
+# def get_user_profile_image(uuid):
+#     url = s3_crud.get_object_url(uuid)
+#     return {'image_url': url}
 
 @router.post("/animes/")
 async def make_user_animes(profile: UserAnimesPost):

@@ -10,7 +10,7 @@ def get_user_by_email(email: str):
     return table.select("*").eq("email", email).execute()
 
 def post_new_user(profile:Profile):
-    return table.insert({"uuid": profile.uuid, "username": profile.username, "gender": profile.gender, "sex_pref": profile.sex_pref, "genre": profile.genre, "bio": profile.bio}).execute()
+    return table.insert({"uuid": profile.uuid, "username": profile.username, "gender": profile.gender, "sex_pref": profile.sex_pref, "genre": profile.genre, "bio": profile.bio, "image_profile": profile.image}).execute()
 
 def get_all_desired_user(gender:str, uuid):
     '''

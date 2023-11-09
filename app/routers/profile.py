@@ -27,6 +27,15 @@ class PostProfile(BaseModel):
     image: str
     image_name: str
 
+class MockProfile(BaseModel):
+    email: str
+    gender: str
+    sex_pref: str
+    genre: str
+    bio: str
+    image_url: str
+
+
 @router.get("/uuid/{uuid}")
 async def get_user_profile(uuid: str):
     '''
@@ -50,6 +59,28 @@ async def get_user_profile(uuid: str):
 
 @router.post("/new-user/")
 async def make_user_profile(profile: PostProfile):
+    matched_users = auth_crud.check_email_user_existence(profile.email)
+    if not matched_users.data: 
+        raise HTTPException(status_code = 500, detail = "Error invalid email")
+    else:
+        uuid = matched_users.data[0]["uuid"]
+        username = matched_users.data[0]["username"]
+        profile = Profile(
+            uuid= uuid,
+            username= username,
+            gender= profile.gender,
+            sex_pref= profile.sex_pref, 
+            genre= profile.gender,
+            bio=profile.bio,
+            image=profile.image_url
+        )
+        response = users_crud.post_new_user(profile = profile)
+        if not response:
+            raise HTTPException(status_code = 500, detail = "Error creating user")
+        return {"message": "Profile created successfully"}
+
+@router.post("/mock-user/")
+async def make_mock_user_profile(profile: MockProfile):
     matched_users = auth_crud.check_email_user_existence(profile.email)
     if not matched_users.data: 
         raise HTTPException(status_code = 500, detail = "Error invalid email")

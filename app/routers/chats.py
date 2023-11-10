@@ -46,7 +46,7 @@ async def create_chat(uuid: str):
     except Exception as e:
         return {"error": str(e)}
     else:
-        return out
+        return {"data": out}
 
 
 @router.get("/mutuals-with-chats/")
@@ -57,12 +57,12 @@ def get_potential_matches(uuid:str):
     resp = matches_crud.get_mutuals(uuid).data
     user_data = []
     use_chat_data = []
-    out = chat_crud.get_user_chats(uuid).data
+    out = chat_crud.get_user_chats(uuid)
     for match in resp:
         user_uuid = match['liked_user']
         has_chat = None
         for itm in out:
-            if itm["member_b"] == user_uuid:
+            if (itm["member_b"] == user_uuid and uuid == itm["member_a"])  or (itm["member_a"] == user_uuid and uuid == itm["member_b"]):
                 has_chat = itm
                 break
         profile = dict(users_crud.get_user_by_uuid(user_uuid).data[0])

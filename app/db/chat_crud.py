@@ -11,4 +11,8 @@ def create_new_chat(uuid: str, member_uuid: str):
     }).execute()
 
 def get_user_chats(uuid: str):
-    return table.select("*").eq("member_a", uuid).execute()
+    member_a =  table.select("*").eq("member_a", uuid).execute().data
+    member_b =  table.select("*").eq("member_b", uuid).execute().data
+    merged = member_a + member_b
+    return merged
+

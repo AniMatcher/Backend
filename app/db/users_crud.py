@@ -25,7 +25,8 @@ def put_edit_user(profile: Profile):
         "gender": profile.gender,
         "sex_pref": profile.sex_pref,
         "genre": profile.genre,
-        "bio": profile.bio
+        "bio": profile.bio,
+        "image": profile.image
     }
     return table.update(update_data).eq("uuid", profile.uuid).execute()
 

@@ -63,9 +63,9 @@ def get_potential_matches(uuid:str, num:int):
             uuid_gender.append('M')
         elif sex_pref == 'B':
             uuid_gender.append('F')
-        elif sex_pref == 'C':
-            uuid_gender.append('NB')
         elif sex_pref == 'D':
+            uuid_gender.append('NB')
+        elif sex_pref == 'C':
             uuid_gender.append('M')
             uuid_gender.append('F')
         elif sex_pref == 'E':

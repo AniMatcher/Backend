@@ -12,6 +12,16 @@ def get_user_by_email(email: str):
 def post_new_user(profile:Profile):
     return table.insert({"uuid": profile.uuid, "username": profile.username, "gender": profile.gender, "sex_pref": profile.sex_pref, "genre": profile.genre, "bio": profile.bio, "image_profile": profile.image}).execute()
 
+def post_blog(text: str, uuid):
+    try:
+        return table.update({'note' : text}).eq('uuid', uuid).execute()
+    except:
+        return 
+
+def get_blog(uuid):
+    return table.select("note").eq('uuid', uuid).execute()
+
+
 def get_all_desired_user(gender:str, uuid):
     '''
         Gets all the users that are the desired gender and makes sure the user is not included. This function only supports choosing one gender.

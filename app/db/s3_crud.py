@@ -42,4 +42,4 @@ def get_object_url(object) -> str:
     if check_object_exist(object):
         return f"https://animatcher.s3.amazonaws.com/{object}"
     else:
-        raise Exception("File doesn't exist in bucket   ")
+        raise Exception("File doesn't exist in bucket")

@@ -35,6 +35,9 @@ class MockProfile(BaseModel):
     bio: str
     image_url: str
 
+class Blog(BaseModel):
+    uuid: str 
+    blog: str 
 
 @router.get("/uuid/{uuid}")
 async def get_user_profile(uuid: str):
@@ -66,8 +69,8 @@ async def make_user_profile(profile: PostProfile):
         uuid = matched_users.data[0]["uuid"]
         username = matched_users.data[0]["username"]
         s3 = boto3.resource('s3')
-        img_data = BytesIO(base64.b64decode(profile.image.split(";base64,", 1)[1]))
-        img_data.seek(0)
+        img_data = BytesIO(base64.b64decode(profile.image.split(";base64,", 1)[1])) #read image bytes
+        img_data.seek(0) #resets the buffer
         bucket_name = ""
         file_name = f"{uuid}_{datetime.now().isoformat().replace(' ','')}.{profile.image_name.split('_')[0].split('.')[1]}"
         print(file_name)
@@ -86,6 +89,20 @@ async def make_user_profile(profile: PostProfile):
         if not response:
             raise HTTPException(status_code = 500, detail = "Error creating user")
         return {"message": "Profile created successfully"}
+
+@router.post("/blog/")
+async def make_blog_post(blog: Blog):
+    try: 
+        users_crud.post_blog(blog.blog, blog.uuid)
+    except:
+        return HTTPException(status_code = 500, detail = "Error making blog")
+
+@router.get("/blog/{uuid}")
+async def get_blog_post(uuid):
+    try: 
+        return users_crud.get_blog(uuid)
+    except:
+        return HTTPException(status_code = 500, detail = "Error getting blog")
 
 @router.post("/mock-user/")
 async def make_mock_user_profile(profile: MockProfile):

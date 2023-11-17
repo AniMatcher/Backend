@@ -1,8 +1,8 @@
 Looking for:
 M - A
 F - B
-NB - C
-MF - D
+NB - D
+MF - C
 MNB - E
 FNB - F
 MFNB - G

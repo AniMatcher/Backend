@@ -146,6 +146,9 @@ def upload_user_profile_image(image: UserProfileImage):
 
 @router.post("/animes/")
 async def make_user_animes(profile: UserAnimesPost):
+    """
+        Creates a liked anime profile given the UserAnimesPost schema
+    """
     matched_users = auth_crud.check_email_user_existence(profile.email)
     if not matched_users.data: 
         raise HTTPException(status_code = 500, detail = "Error invalid email")
@@ -159,6 +162,10 @@ async def make_user_animes(profile: UserAnimesPost):
 
 @router.get("/animes/")
 async def get_user_anime(uuid: str):
+    """
+        Gets the users preferred anime
+        Return: list of image urls
+    """
     matched_users = auth_crud.check_uuid_user_existence(uuid)
     if not matched_users.data: 
         raise HTTPException(status_code = 500, detail = "Error invalid email")
@@ -172,4 +179,5 @@ async def get_user_anime(uuid: str):
         for anime in temp_list:
             image_url_list.append(anime["image_url"])
         return image_url_list
+
 

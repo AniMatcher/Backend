@@ -25,6 +25,7 @@ def index():
     client_secret = os.getenv("ANILIST_SECRET")
     redirect_uri = "http://127.0.0.1:5000/anilist/redirect"
     return f"""<a href='https://anilist.co/api/v2/oauth/authorize?client_id={client_id}&redirect_uri={redirect_uri}&response_type=code'>Login with AniList</a>"""
+
 @router.get("/redirect")
 def create_token(response: Response, code: str):
     client_id = os.getenv("ANILIST_CLIENT_ID")
@@ -51,8 +52,8 @@ def get_user_info(request: Request):
         'Accept': 'application/json'
     }
     query = '''
-    query { # Define which variables will be used in the query (id)
-    Viewer { # Insert our variables into the query arguments (id) (type: ANIME is hard-coded in the query)
+    query { 
+    Viewer { 
         name,
         avatar {
             large
@@ -67,11 +68,10 @@ def get_user_info(request: Request):
             }
         },
         siteUrl,
-        
+
     }
     }
     '''
-
     # Make the HTTP Api request
     response = json.loads(requests.post(uri, headers= headers, json={'query': query}).content)
     return response

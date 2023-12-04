@@ -81,14 +81,16 @@ def get_potential_matches(uuid:str, num:int):
         
         user_liked_list = []
         for genders in uuid_gender:
-            desired = users_crud.get_all_desired_user(genders, uuid).data
+            prev_liked = matches_crud.get_user_liked(uuid=uuid).data
+            print(prev_liked)
+            desired = users_crud.get_all_desired_user(genders, uuid, prev_liked=prev_liked, num=num).data
             for i in desired:
                 user_liked_list.append(i)
         if len(user_liked_list) == 0:
             raise HTTPException(status_code=500, detail="no potential matches")
         else:
             random.shuffle(user_liked_list)
-            return user_liked_list[:num]
+            return user_liked_list
 
 @router.get("/uuid/{uuid}")
 def get_user(uuid: str):

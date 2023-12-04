@@ -22,11 +22,13 @@ def get_blog(uuid):
     return table.select("note").eq('uuid', uuid).execute()
 
 
-def get_all_desired_user(gender:str, uuid):
+def get_all_desired_user(gender:str, uuid, prev_liked:list, num):
     '''
         Gets all the users that are the desired gender and makes sure the user is not included. This function only supports choosing one gender.
+        num: chooses how many desired users to get
+        prev_like: previous people the user liked are not added to the list of possible desired individuals
     '''
-    return table.select("*").eq("gender", gender).neq("uuid", uuid).execute()
+    return table.select("*").eq("gender", gender).neq("uuid", uuid).not_.in_('uuid', prev_liked).limit(num).execute()
 
 def put_edit_user(profile: Profile):
     update_data = {

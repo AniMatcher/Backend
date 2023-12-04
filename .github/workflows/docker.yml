@@ -36,4 +36,4 @@ jobs:
           platforms: linux/amd64
           push: true
           tags: |
-            ghcr.io/daggy1234/animatcher-backend:latest
+            ghcr.io/AniMatcher/animatcher-backend:latest

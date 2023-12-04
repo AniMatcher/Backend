@@ -1,6 +1,6 @@
 from fastapi import FastAPI, APIRouter, Depends, HTTPException, Request, Response, Header
 from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse
-from ..db import profile_crud, anime_crud, users_crud, auth_crud, s3_crud
+from ..db import profile_crud, anime_crud, users_crud, auth_crud, s3_crud, anilist_crud
 from ..schemas.profile_schema import Profile, UserAnimesPost, UserAnimes, UserProfileImage
 from pydantic import BaseModel
 import requests
@@ -23,14 +23,14 @@ router = APIRouter(
 def index():
     client_id = os.getenv("ANILIST_CLIENT_ID")
     client_secret = os.getenv("ANILIST_SECRET")
-    redirect_uri = "http://127.0.0.1:5000/anilist/redirect"
+    redirect_uri = os.getenv("ANILIST_REDIRECT_URI")
     return f"""<a href='https://anilist.co/api/v2/oauth/authorize?client_id={client_id}&redirect_uri={redirect_uri}&response_type=code'>Login with AniList</a>"""
 
-@router.get("/redirect")
-def create_token(response: Response, code: str):
+@router.post("/redirect")
+def create_token(code: str, uuid: str):
     client_id = os.getenv("ANILIST_CLIENT_ID")
     client_secret = os.getenv("ANILIST_SECRET")
-    redirect_uri = "http://127.0.0.1:5000/anilist/redirect"
+    redirect_uri = os.getenv("ANILIST_REDIRECT_URI")
     body = {
         'grant_type': 'authorization_code',
         'client_id': client_id,
@@ -39,12 +39,11 @@ def create_token(response: Response, code: str):
         'code': code
     }
     token = json.loads(requests.post(url = 'https://anilist.co/api/v2/oauth/token', json = body).content)
-    response.set_cookie(key="ANILIST_TOKEN", value=token['access_token'])
+    anilist_crud.add_anilist_token(uuid=uuid, token=token)
     return token['access_token']
 
-@router.get("/user")
-def get_user_info(request: Request):
-    token = get_token(request=request)
+@router.get("/user/{token}")
+def get_user_info(token):
     uri = 'https://graphql.anilist.co'
     headers = {
         'Authorization': 'Bearer '+token,
@@ -75,10 +74,3 @@ def get_user_info(request: Request):
     # Make the HTTP Api request
     response = json.loads(requests.post(uri, headers= headers, json={'query': query}).content)
     return response
-
-def get_token(request: Request):
-    token = request.cookies.get("ANILIST_TOKEN")
-    if token == None:
-        return RedirectResponse("http://127.0.0.1:5000/anilist")
-    else: 
-        return token

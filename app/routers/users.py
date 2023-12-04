@@ -82,7 +82,7 @@ def get_potential_matches(uuid:str, num:int):
         user_liked_list = []
         for genders in uuid_gender:
             prev_liked = matches_crud.get_user_liked(uuid=uuid).data
-            print(prev_liked)
+            #print(prev_liked)
             desired = users_crud.get_all_desired_user(genders, uuid, prev_liked=prev_liked, num=num).data
             for i in desired:
                 user_liked_list.append(i)
@@ -98,7 +98,7 @@ def get_user(uuid: str):
         Gets user information based on uuid
     '''
     user_data = users_crud.get_user_by_uuid(uuid)
-    print(uuid, user_data)
+    #print(uuid, user_data)
     if not user_data.data:
         raise HTTPException(status_code=404, detail="User not found")
     return user_data

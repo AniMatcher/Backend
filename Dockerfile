@@ -1,6 +1,7 @@
 FROM python:3.11-slim-buster
 
-COPY ["pyproject.toml", "poetry.lock"] /
+COPY ./pyproject.toml /pyproject.toml
+COPY ./poetry.lock /poetry.lock
 
 RUN apt-get update && \
     apt-get install -y gcc && \

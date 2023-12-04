@@ -1,6 +1,6 @@
 FROM python:3.11-slim-buster
 
-COPY ["pyproject.toml", "poetry.lock", ".env"] 
+COPY ["pyproject.toml", "poetry.lock"] /
 
 RUN apt-get update && \
     apt-get install -y gcc && \
@@ -23,5 +23,7 @@ ENV PYTHONPATH=/app
 
 
 EXPOSE 5000
+
+RUN touch .env
 
 CMD ["/start.sh"]

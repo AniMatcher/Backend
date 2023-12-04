@@ -11,5 +11,5 @@ echo "Using GUNICORN_CONF"
 export WORKER_CLASS=${WORKER_CLASS:-"uvicorn.workers.UvicornWorker"}
 echo "Starting with $WORKER_CLASS Worker Class"
 
-
+echo gunicorn  -k "$WORKER_CLASS" -c "$GUNICORN_CONF" "$APP_MODULE"
 exec gunicorn  -k "$WORKER_CLASS" -c "$GUNICORN_CONF" "$APP_MODULE"

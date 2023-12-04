@@ -38,12 +38,22 @@ def create_token(code: str, uuid: str):
         'redirect_uri': redirect_uri,
         'code': code
     }
-    token = json.loads(requests.post(url = 'https://anilist.co/api/v2/oauth/token', json = body).content)
-    anilist_crud.add_anilist_token(uuid=uuid, token=token)
-    return token['access_token']
+    print(body)
+    res = requests.post(url = 'https://anilist.co/api/v2/oauth/token', json = body)
+    if (res.status_code == 200):
+        token = res.json()
+        access_token = token["access_token"]
+        anilist_crud.add_anilist_token(uuid=uuid, token=access_token)
+        return {"token": token['access_token']}
+    else: 
+        token = res.json()
+        print(token)
+        return {"error": "exception"}, 500
+    
 
-@router.get("/user/{token}")
-def get_user_info(token):
+@router.get("/user/{uuid}")
+def get_user_info(uuid: str):
+    token = anilist_crud.get_anilist_token(uuid).data[0]["token"]
     uri = 'https://graphql.anilist.co'
     headers = {
         'Authorization': 'Bearer '+token,

@@ -37,6 +37,7 @@ trio = ["trio (<0.22)"]
 name = "appnope"
 version = "0.1.3"
 description = "Disable App Nap on macOS >= 10.9"
+category = "dev"
 optional = false
 python-versions = "*"
 files = [
@@ -48,6 +49,7 @@ files = [
 name = "asttokens"
 version = "2.4.1"
 description = "Annotate AST trees with source code positions"
+category = "dev"
 optional = false
 python-versions = "*"
 files = [
@@ -64,7 +66,6 @@ test = ["astroid (>=1,<2)", "astroid (>=2,<4)", "pytest"]
 
 [[package]]
 name = "boto3"
-version = "1.33.6"
 version = "1.33.6"
 description = "The AWS SDK for Python"
 category = "main"
@@ -311,6 +312,7 @@ files = [
 name = "comm"
 version = "0.2.0"
 description = "Jupyter Python Comm implementation, for usage in ipykernel, xeus-python etc."
+category = "dev"
 optional = false
 python-versions = ">=3.8"
 files = [
@@ -328,6 +330,7 @@ test = ["pytest"]
 name = "debugpy"
 version = "1.8.0"
 description = "An implementation of the Debug Adapter Protocol for Python"
+category = "dev"
 optional = false
 python-versions = ">=3.8"
 files = [
@@ -355,6 +358,7 @@ files = [
 name = "decorator"
 version = "5.1.1"
 description = "Decorators for Humans"
+category = "dev"
 optional = false
 python-versions = ">=3.5"
 files = [
@@ -381,6 +385,7 @@ packaging = "*"
 name = "executing"
 version = "2.0.1"
 description = "Get the currently executing AST node of a frame, and other information"
+category = "dev"
 optional = false
 python-versions = ">=3.5"
 files = [
@@ -657,6 +662,7 @@ files = [
 name = "ipykernel"
 version = "6.27.1"
 description = "IPython Kernel for Jupyter"
+category = "dev"
 optional = false
 python-versions = ">=3.8"
 files = [
@@ -670,7 +676,7 @@ comm = ">=0.1.1"
 debugpy = ">=1.6.5"
 ipython = ">=7.23.1"
 jupyter-client = ">=6.1.12"
-jupyter-core = ">=4.12,<5.0.dev0 || >=5.1.dev0"
+jupyter-core = ">=4.12,<5.0.0 || >=5.1.0"
 matplotlib-inline = ">=0.1"
 nest-asyncio = "*"
 packaging = "*"
@@ -690,6 +696,7 @@ test = ["flaky", "ipyparallel", "pre-commit", "pytest (>=7.0)", "pytest-asyncio"
 name = "ipython"
 version = "8.18.1"
 description = "IPython: Productive Interactive Computing"
+category = "dev"
 optional = false
 python-versions = ">=3.9"
 files = [
@@ -725,6 +732,7 @@ test-extra = ["curio", "matplotlib (!=3.2.0)", "nbformat", "numpy (>=1.22)", "pa
 name = "jedi"
 version = "0.19.1"
 description = "An autocompletion tool for Python that can be used for text editors."
+category = "dev"
 optional = false
 python-versions = ">=3.6"
 files = [
@@ -756,6 +764,7 @@ files = [
 name = "joblib"
 version = "1.3.2"
 description = "Lightweight pipelining with Python functions"
+category = "main"
 optional = false
 python-versions = ">=3.7"
 files = [
@@ -767,6 +776,7 @@ files = [
 name = "jupyter-client"
 version = "8.6.0"
 description = "Jupyter protocol implementation and client libraries"
+category = "dev"
 optional = false
 python-versions = ">=3.8"
 files = [
@@ -775,7 +785,7 @@ files = [
 ]
 
 [package.dependencies]
-jupyter-core = ">=4.12,<5.0.dev0 || >=5.1.dev0"
+jupyter-core = ">=4.12,<5.0.0 || >=5.1.0"
 python-dateutil = ">=2.8.2"
 pyzmq = ">=23.0"
 tornado = ">=6.2"
@@ -789,6 +799,7 @@ test = ["coverage", "ipykernel (>=6.14)", "mypy", "paramiko", "pre-commit", "pyt
 name = "jupyter-core"
 version = "5.5.0"
 description = "Jupyter core package. A base package on which Jupyter projects rely."
+category = "dev"
 optional = false
 python-versions = ">=3.8"
 files = [
@@ -809,6 +820,7 @@ test = ["ipykernel", "pre-commit", "pytest", "pytest-cov", "pytest-timeout"]
 name = "matplotlib-inline"
 version = "0.1.6"
 description = "Inline Matplotlib backend for Jupyter"
+category = "dev"
 optional = false
 python-versions = ">=3.5"
 files = [
@@ -823,6 +835,7 @@ traitlets = "*"
 name = "nest-asyncio"
 version = "1.5.8"
 description = "Patch asyncio to allow nested event loops"
+category = "dev"
 optional = false
 python-versions = ">=3.5"
 files = [
@@ -960,6 +973,7 @@ xml = ["lxml (>=4.8.0)"]
 name = "parso"
 version = "0.8.3"
 description = "A Python Parser"
+category = "dev"
 optional = false
 python-versions = ">=3.6"
 files = [
@@ -975,6 +989,7 @@ testing = ["docopt", "pytest (<6.0.0)"]
 name = "pexpect"
 version = "4.9.0"
 description = "Pexpect allows easy control of interactive console applications."
+category = "dev"
 optional = false
 python-versions = "*"
 files = [
@@ -989,6 +1004,7 @@ ptyprocess = ">=0.5"
 name = "platformdirs"
 version = "4.0.0"
 description = "A small Python package for determining appropriate platform-specific dirs, e.g. a \"user data dir\"."
+category = "dev"
 optional = false
 python-versions = ">=3.7"
 files = [
@@ -1022,6 +1038,7 @@ strenum = ">=0.4.9,<0.5.0"
 name = "prompt-toolkit"
 version = "3.0.41"
 description = "Library for building powerful interactive command lines in Python"
+category = "dev"
 optional = false
 python-versions = ">=3.7.0"
 files = [
@@ -1036,6 +1053,7 @@ wcwidth = "*"
 name = "psutil"
 version = "5.9.6"
 description = "Cross-platform lib for process and system monitoring in Python."
+category = "dev"
 optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, !=3.5.*"
 files = [
@@ -1064,6 +1082,7 @@ test = ["enum34", "ipaddress", "mock", "pywin32", "wmi"]
 name = "ptyprocess"
 version = "0.7.0"
 description = "Run a subprocess in a pseudo terminal"
+category = "dev"
 optional = false
 python-versions = "*"
 files = [
@@ -1075,6 +1094,7 @@ files = [
 name = "pure-eval"
 version = "0.2.2"
 description = "Safely evaluate AST nodes without side effects"
+category = "dev"
 optional = false
 python-versions = "*"
 files = [
@@ -1239,6 +1259,7 @@ typing-extensions = ">=4.6.0,<4.7.0 || >4.7.0"
 name = "pygments"
 version = "2.17.2"
 description = "Pygments is a syntax highlighting package written in Python."
+category = "dev"
 optional = false
 python-versions = ">=3.7"
 files = [
@@ -1296,6 +1317,7 @@ files = [
 name = "pywin32"
 version = "306"
 description = "Python for Window Extensions"
+category = "dev"
 optional = false
 python-versions = "*"
 files = [
@@ -1319,6 +1341,7 @@ files = [
 name = "pyzmq"
 version = "25.1.1"
 description = "Python bindings for 0MQ"
+category = "dev"
 optional = false
 python-versions = ">=3.6"
 files = [
@@ -1473,7 +1496,6 @@ files = [
 
 [package.dependencies]
 botocore = ">=1.33.2,<2.0a.0"
-botocore = ">=1.33.2,<2.0a.0"
 
 [package.extras]
 crt = ["botocore[crt] (>=1.33.2,<2.0a.0)"]
@@ -1482,6 +1504,7 @@ crt = ["botocore[crt] (>=1.33.2,<2.0a.0)"]
 name = "scikit-learn"
 version = "1.3.2"
 description = "A set of python modules for machine learning and data mining"
+category = "main"
 optional = false
 python-versions = ">=3.8"
 files = [
@@ -1529,6 +1552,7 @@ tests = ["black (>=23.3.0)", "matplotlib (>=3.1.3)", "mypy (>=1.3)", "numpydoc (
 name = "scipy"
 version = "1.11.4"
 description = "Fundamental algorithms for scientific computing in Python"
+category = "main"
 optional = false
 python-versions = ">=3.9"
 files = [
@@ -1612,6 +1636,7 @@ files = [
 name = "stack-data"
 version = "0.6.3"
 description = "Extract data from python stack frames and tracebacks for informative displays"
+category = "dev"
 optional = false
 python-versions = "*"
 files = [
@@ -1718,6 +1743,7 @@ httpx = ">=0.24.0,<0.25.0"
 name = "threadpoolctl"
 version = "3.2.0"
 description = "threadpoolctl"
+category = "main"
 optional = false
 python-versions = ">=3.8"
 files = [
@@ -1729,6 +1755,7 @@ files = [
 name = "tornado"
 version = "6.4"
 description = "Tornado is a Python web framework and asynchronous networking library, originally developed at FriendFeed."
+category = "dev"
 optional = false
 python-versions = ">= 3.8"
 files = [
@@ -1749,6 +1776,7 @@ files = [
 name = "traitlets"
 version = "5.14.0"
 description = "Traitlets Python configuration system"
+category = "dev"
 optional = false
 python-versions = ">=3.8"
 files = [
@@ -1822,17 +1850,6 @@ h11 = ">=0.8"
 standard = ["colorama (>=0.4)", "httptools (>=0.5.0)", "python-dotenv (>=0.13)", "pyyaml (>=5.1)", "uvloop (>=0.14.0,!=0.15.0,!=0.15.1)", "watchfiles (>=0.13)", "websockets (>=10.4)"]
 
 [[package]]
-name = "wcwidth"
-version = "0.2.12"
-description = "Measures the displayed width of unicode strings in a terminal"
-optional = false
-python-versions = "*"
-files = [
-    {file = "wcwidth-0.2.12-py2.py3-none-any.whl", hash = "sha256:f26ec43d96c8cbfed76a5075dac87680124fa84e0855195a6184da9c187f133c"},
-    {file = "wcwidth-0.2.12.tar.gz", hash = "sha256:f01c104efdf57971bcb756f054dd58ddec5204dd15fa31d6503ea57947d97c02"},
-]
-
-[[package]]
 name = "uvloop"
 version = "0.19.0"
 description = "Fast implementation of asyncio event loop on top of libuv"
@@ -1876,6 +1893,18 @@ files = [
 [package.extras]
 docs = ["Sphinx (>=4.1.2,<4.2.0)", "sphinx-rtd-theme (>=0.5.2,<0.6.0)", "sphinxcontrib-asyncio (>=0.3.0,<0.4.0)"]
 test = ["Cython (>=0.29.36,<0.30.0)", "aiohttp (==3.9.0b0)", "aiohttp (>=3.8.1)", "flake8 (>=5.0,<6.0)", "mypy (>=0.800)", "psutil", "pyOpenSSL (>=23.0.0,<23.1.0)", "pycodestyle (>=2.9.0,<2.10.0)"]
+
+[[package]]
+name = "wcwidth"
+version = "0.2.12"
+description = "Measures the displayed width of unicode strings in a terminal"
+category = "dev"
+optional = false
+python-versions = "*"
+files = [
+    {file = "wcwidth-0.2.12-py2.py3-none-any.whl", hash = "sha256:f26ec43d96c8cbfed76a5075dac87680124fa84e0855195a6184da9c187f133c"},
+    {file = "wcwidth-0.2.12.tar.gz", hash = "sha256:f01c104efdf57971bcb756f054dd58ddec5204dd15fa31d6503ea57947d97c02"},
+]
 
 [[package]]
 name = "websocket"
@@ -2048,4 +2077,4 @@ testing = ["coverage (>=5.0.3)", "zope.event", "zope.testing"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "d0336e298d152a0f8a82936648cc8b82225a1c547e89561bf5bcc56f5a8881da"
+content-hash = "7f38a5ee749c58a9e42614fb855fc244fcc9f80eba84f8e45adc81841f2d07a6"

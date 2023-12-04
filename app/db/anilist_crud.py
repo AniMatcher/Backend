@@ -8,3 +8,6 @@ def add_anilist_token(uuid, token):
         "uuid" : uuid,
         "token" : token
     }).execute()
+
+def get_anilist_token(uuid: str):
+    return table.select("*").eq("uuid", uuid).execute()

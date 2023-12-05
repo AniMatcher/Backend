@@ -58,8 +58,9 @@ async def get_user_profile(uuid: str):
             image_urls[anime["anime_name"]] = (anime["image_url"])
         profile_data = users_crud.get_user_by_uuid(uuid).data[0]
         profile_data['image_urls'] = image_urls
-        metrics = anilist_crud.get_user_metrics(uuid).data[0]
-        profile_data['metrics'] = metrics
+        metrics = anilist_crud.get_user_metrics(uuid).data
+        if len(metrics) >= 1:
+            profile_data['metrics'] = metrics
         return profile_data
 
 @router.post("/new-user/")

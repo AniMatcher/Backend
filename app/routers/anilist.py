@@ -14,6 +14,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 class WatchDataReq(BaseModel):
+    uuid: str
     count: int
     meanScore: float
     minutesWatched: int
@@ -56,9 +57,10 @@ def create_token(code: str, uuid: str):
         return {"error": "exception"}, 500
     
 
-@router.post("/user/{uuid}")
+@router.post("/user/")
 def get_user_info(watch_data: WatchDataReq):
-    print(watch_data)
+    anilist_crud.add_user_metrics(watch_data.uuid, False, watch_data.count, watch_data.meanScore, watch_data.minutesWatched, watch_data.episodesWatched)
+    return {"data": "prev o"}
 
 # @router.get("/user/{uuid}")
 def get_user_info(uuid: str):

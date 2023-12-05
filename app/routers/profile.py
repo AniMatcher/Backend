@@ -1,5 +1,5 @@
 from fastapi import FastAPI, APIRouter, Depends, HTTPException
-from ..db import profile_crud, anime_crud, users_crud, auth_crud, s3_crud
+from ..db import profile_crud, anime_crud, users_crud, auth_crud, s3_crud, anilist_crud
 from ..schemas.profile_schema import Profile, UserAnimesPost, UserAnimes, UserProfileImage
 from pydantic import BaseModel
 import requests
@@ -58,6 +58,8 @@ async def get_user_profile(uuid: str):
             image_urls[anime["anime_name"]] = (anime["image_url"])
         profile_data = users_crud.get_user_by_uuid(uuid).data[0]
         profile_data['image_urls'] = image_urls
+        metrics = anilist_crud.get_user_metrics(uuid).data[0]
+        profile_data['metrics'] = metrics
         return profile_data
 
 @router.post("/new-user/")

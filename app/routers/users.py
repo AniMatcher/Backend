@@ -14,6 +14,9 @@ router = APIRouter(
 
 @router.get("/mutuals/")
 def get_potential_mutuals(uuid:str):
+    '''
+        Gets user information from all the user matches
+    '''
     user_data = auth_crud.check_uuid_user_existence(uuid)
     if not user_data.data: 
         raise HTTPException(status_code = 500, detail = "Error invalid email")
@@ -51,7 +54,7 @@ def like_user(match: Matches):
 @router.get("/matches")
 def get_potential_matches(uuid:str, num:int):
     '''
-        Returns a list of matches given a UUID of the person
+        Returns a list of matches given a UUID of the person. Uses SQL Function to do in one sql run
     '''
     user_data = auth_crud.check_uuid_user_existence(uuid)
     if not user_data.data: 

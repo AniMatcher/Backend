@@ -28,6 +28,9 @@ router = APIRouter(
 
 @router.post("/redirect")
 def create_token(code: str, uuid: str):
+    '''
+        Creates an anilist token and puts it in the database
+    '''
     client_id = os.getenv("ANILIST_CLIENT_ID")
     client_secret = os.getenv("ANILIST_SECRET")
     redirect_uri = os.getenv("ANILIST_REDIRECT_URI")
@@ -59,6 +62,9 @@ def create_token(code: str, uuid: str):
 
 @router.post("/user/")
 def get_user_info(watch_data: WatchDataReq):
+    '''
+        gets all the user metric data
+    '''
     anilist_crud.add_user_metrics(watch_data.uuid, False, watch_data.count, watch_data.meanScore, watch_data.minutesWatched, watch_data.episodesWatched)
     return {"data": "prev o"}
 

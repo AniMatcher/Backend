@@ -14,6 +14,9 @@ def get_anilist_token(uuid: str):
     return table.select("*").eq("uuid", uuid).execute()
 
 def add_user_metrics(uuid: str, anilist: bool, count: int, meanScore: float, minutesWatched: float, episodesWatched: float):
+    '''
+        puts the user metrics into the database
+    '''
     return metrics_table.upsert({
         "uuid": uuid,
         "anilist": anilist,

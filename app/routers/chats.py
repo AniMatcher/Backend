@@ -51,6 +51,9 @@ async def create_chat(uuid: str):
 
 @router.get("/mutuals-with-chats/")
 def get_potential_matches(uuid:str):
+    '''
+        checks to make sure each chatroom is with a mutally matched person. then it creates a dict of who matches with who
+    '''
     user_data = auth_crud.check_uuid_user_existence(uuid)
     if not user_data.data: 
         raise HTTPException(status_code = 500, detail = "Error invalid email")

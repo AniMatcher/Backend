@@ -65,6 +65,9 @@ async def get_user_profile(uuid: str):
 
 @router.post("/new-user/")
 async def make_user_profile(profile: PostProfile):
+    '''
+        Creates the user profile with the profile image as well
+    '''
     matched_users = auth_crud.check_email_user_existence(profile.email)
     if not matched_users.data: 
         raise HTTPException(status_code = 500, detail = "Error invalid email")
@@ -109,6 +112,9 @@ async def get_blog_post(uuid):
 
 @router.post("/mock-user/")
 async def make_mock_user_profile(profile: MockProfile):
+    '''
+        Creates fake profile so we can differentiate who is real and allow the bots to have an AI Chatbot with ti
+    '''
     matched_users = auth_crud.check_email_user_existence(profile.email)
     if not matched_users.data: 
         raise HTTPException(status_code = 500, detail = "Error invalid email")
@@ -131,21 +137,12 @@ async def make_mock_user_profile(profile: MockProfile):
 
 @router.post("/edit-profile/")
 async def edit_user_profile(profile: Profile):
+    '''
+        Allows users to edit the profile 
+    '''
     response = users_crud.put_edit_user(profile = profile)
     if not response:
         raise HTTPException(status_code = 500, detail = "Error creating user")
-
-@router.post("/image")
-def upload_user_profile_image(image: UserProfileImage):
-    uuid = image.uuid
-    image_url = image.image
-    ##### FINISH METHOD #####
-    return ""
-
-# @router.get("/image/{uuid}")
-# def get_user_profile_image(uuid):
-#     url = s3_crud.get_object_url(uuid)
-#     return {'image_url': url}
 
 @router.post("/animes/")
 async def make_user_animes(profile: UserAnimesPost):

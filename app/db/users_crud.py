@@ -32,6 +32,9 @@ def get_all_desired_user(gender:str, uuid):
     #return table.select("*").eq("gender", gender).neq("uuid", uuid).not_.in_('uuid', prev_liked).limit(num).execute()
 
 def put_edit_user(profile: Profile):
+    '''
+        updates the profile for a person
+    '''
     update_data = {
         "uuid": profile.uuid,
         "username": profile.username,

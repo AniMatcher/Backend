@@ -83,6 +83,7 @@ def get_potential_matches(uuid:str, num:int):
         for genders in uuid_gender:
             desired = users_crud.get_all_desired_user(genders, uuid).data
             for i in range( min(int(num / len(uuid_gender)), len(desired))):
+                desired[i]['image_urls'] = desired[i]['image_urls'].replace("{","").replace("}","").split(",")
                 user_liked_list.append(desired[i])
 
         if len(user_liked_list) == 0:

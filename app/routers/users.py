@@ -1,5 +1,5 @@
 from fastapi import FastAPI, APIRouter, Depends, HTTPException
-from ..db import users_crud, auth_crud, matches_crud
+from ..db import users_crud, auth_crud, matches_crud, profile_crud,anime_crud
 from ..schemas.matches_schema import Matches
 from pydantic import BaseModel
 import random
@@ -81,10 +81,18 @@ def get_potential_matches(uuid:str, num:int):
         
         user_liked_list = []
         for genders in uuid_gender:
-            prev_liked = matches_crud.get_user_liked(uuid=uuid).data
-            #print(prev_liked)
-            desired = users_crud.get_all_desired_user(genders, uuid, prev_liked=prev_liked, num=num).data
+            temp = matches_crud.get_user_liked(uuid=uuid).data
+            prev_liked = []
+            for i in temp:
+                prev_liked.append(i['liked_user'])
+            desired = users_crud.get_all_desired_user(genders, uuid, prev_liked=prev_liked, num=num/len(genders)).data
             for i in desired:
+                uid = i['uuid']
+                anime_ids = profile_crud.get_user_animes(uuid=uid).data
+                image_urls = []
+                for aids in anime_ids:
+                    image_urls.append(anime_crud.get_anime(aids['aid']).data[0]['image_url'])
+                i['image_urls'] = image_urls
                 user_liked_list.append(i)
         if len(user_liked_list) == 0:
             raise HTTPException(status_code=500, detail="no potential matches")

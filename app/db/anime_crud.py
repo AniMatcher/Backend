@@ -4,7 +4,7 @@ from ..schemas.anime_schema import Anime
 table = db_client.client.table("anime") 
 
 def get_anime(aid:int):
-    return table.select("1").eq("aid", aid).execute()
+    return table.select("*").eq("aid", aid).execute()
 
 def get_multiple_anime(aids:list):
     return table.select("*").in_("aid", aids).execute()

@@ -19,13 +19,6 @@ router = APIRouter(
     responses={404: {"description": "Not Found"}}
     )
 
-@router.get("/", response_class=HTMLResponse)
-def index():
-    client_id = os.getenv("ANILIST_CLIENT_ID")
-    client_secret = os.getenv("ANILIST_SECRET")
-    redirect_uri = os.getenv("ANILIST_REDIRECT_URI")
-    return f"""<a href='https://anilist.co/api/v2/oauth/authorize?client_id={client_id}&redirect_uri={redirect_uri}&response_type=code'>Login with AniList</a>"""
-
 @router.post("/redirect")
 def create_token(code: str, uuid: str):
     client_id = os.getenv("ANILIST_CLIENT_ID")
@@ -38,7 +31,7 @@ def create_token(code: str, uuid: str):
         'redirect_uri': redirect_uri,
         'code': code
     }
-    print(body)
+    #print(body)
     res = requests.post(url = 'https://anilist.co/api/v2/oauth/token', json = body)
     if (res.status_code == 200):
         token = res.json()
@@ -47,7 +40,7 @@ def create_token(code: str, uuid: str):
         return {"token": token['access_token']}
     else: 
         token = res.json()
-        print(token)
+        #print(token)
         return {"error": "exception"}, 500
     
 
@@ -73,7 +66,6 @@ def get_user_info(uuid: str):
                 meanScore,
                 minutesWatched,
                 episodesWatched,
-                
             }
         },
         siteUrl,

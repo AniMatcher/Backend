@@ -32,3 +32,4 @@ create or replace function anime_autocomplete_search (query text) returns TABLE 
   SELECT anime_name,aid,anime_id,image_url FROM anime ORDER BY similarity(anime_name, query) DESC, anime_name LIMIT 5;
 $$ language sql;
 
+create or replace function 

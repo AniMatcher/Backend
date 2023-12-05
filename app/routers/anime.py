@@ -9,39 +9,6 @@ router = APIRouter(
     tags=["anime"],
     responses={404: {"description": "Not Found"}}
     )
-# var options = {
-#   uri: 'https://anilist.co/api/v2/oauth/token',
-#   method: 'POST',
-#   headers: {
-#     'Content-Type': 'application/json',
-#     'Accept': 'application/json',
-#   },
-#   json: {
-#     'grant_type': 'authorization_code',
-#     'client_id': '{client_id}',
-#     'client_secret': '{client_secret}',
-#     'redirect_uri': '{redirect_uri}', // http://example.com/callback
-#     'code': '{code}', // The Authorization Code received previously
-#   }
-# };
-@router.get("/token")
-def get_anilist_token():
-    url = 'https://anilist.co/api/v2/oauth/token'
-    headers = {
-        'Content-Type' : 'application/json',
-        'Accept' : 'application/json'
-    }
-    client_id =''
-    client_secret = ''
-    redirect_uri = ''
-    code = ''
-    json = {
-     'grant_type': 'authorization_code',
-     'client_id': f'{client_id}',
-     'client_secret': f'{client_secret}',
-     'redirect_uri': f'{redirect_uri}', 
-     'code': f'{code}'   
-    }
 
 @router.get("/")
 def get_info(aid):

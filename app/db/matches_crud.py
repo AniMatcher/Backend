@@ -33,4 +33,6 @@ def get_mutuals(uuid: str):
     '''
         Get users that have matched together
     '''
+    all_matches = []
+
     return table.select("*").eq("uuid", uuid).eq("match", True).execute()

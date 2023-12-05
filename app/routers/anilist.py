@@ -13,6 +13,12 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+class WatchDataReq(BaseModel):
+    count: int
+    meanScore: float
+    minutesWatched: int
+    episodesWatched: int
+
 router = APIRouter(
     prefix="/anilist", 
     tags=["anilist"],
@@ -37,14 +43,24 @@ def create_token(code: str, uuid: str):
         token = res.json()
         access_token = token["access_token"]
         anilist_crud.add_anilist_token(uuid=uuid, token=access_token)
-        return {"token": token['access_token']}
+        user_data = get_user_info(uuid)
+        if user_data["data"]:
+            path = user_data["data"]["Viewer"]["statistics"]["anime"]
+            anilist_crud.add_user_metrics(uuid, True, path["count"], path["meanScore"], path["minutesWatched"], path["episodesWatched"])
+            return {"token": token['access_token']}
+        else:
+            return {"error": "exception"}, 500
     else: 
         token = res.json()
         #print(token)
         return {"error": "exception"}, 500
     
 
-@router.get("/user/{uuid}")
+@router.post("/user/{uuid}")
+def get_user_info(watch_data: WatchDataReq):
+    print(watch_data)
+
+# @router.get("/user/{uuid}")
 def get_user_info(uuid: str):
     token = anilist_crud.get_anilist_token(uuid).data[0]["token"]
     uri = 'https://graphql.anilist.co'
@@ -74,5 +90,6 @@ def get_user_info(uuid: str):
     }
     '''
     # Make the HTTP Api request
-    response = json.loads(requests.post(uri, headers= headers, json={'query': query}).content)
-    return response
+    response = requests.post(uri, headers= headers, json={'query': query})
+    json_d = response.json()
+    return json_d

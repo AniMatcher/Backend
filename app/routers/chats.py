@@ -54,10 +54,17 @@ def get_potential_matches(uuid:str):
     user_data = auth_crud.check_uuid_user_existence(uuid)
     if not user_data.data: 
         raise HTTPException(status_code = 500, detail = "Error invalid email")
+    
     resp = matches_crud.get_mutuals(uuid).data
     user_data = []
     use_chat_data = []
+    print(resp)
     out = chat_crud.get_user_chats(uuid)
+    print(out)
+
+    if len(resp) < 1:
+        return  {"matches": [], "chats": []}
+
     for match in resp:
         user_uuid = match['liked_user']
         has_chat = None

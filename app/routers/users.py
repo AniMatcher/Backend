@@ -87,7 +87,7 @@ def get_potential_matches(uuid:str, num:int):
                 user_liked_list.append(desired[i])
 
         if len(user_liked_list) == 0:
-            raise HTTPException(status_code=500, detail="no potential matches")
+            return []
         else:
             random.shuffle(user_liked_list)
             return user_liked_list

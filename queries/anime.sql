@@ -32,4 +32,15 @@ create or replace function anime_autocomplete_search (query text) returns TABLE 
   SELECT anime_name,aid,anime_id,image_url FROM anime ORDER BY similarity(anime_name, query) DESC, anime_name LIMIT 5;
 $$ language sql;
 
-create or replace function 
+create or replace function get_potential_matches (user_id uuid, gdr varchar) returns TABLE (uuid uuid, gender varchar, sex_pref varchar, genre text, bio text, image_profile text, image_urls text) 
+as 
+$$ 
+  select u1.uuid, gender, sex_pref, genre, bio, image_profile, array_agg(image_url) as image_urls from users u1, user_animes, anime
+  where  
+  u1.uuid = user_animes.uuid
+  AND user_animes.aid = anime.aid
+  AND u1.uuid <> user_id
+  AND u1.gender = gdr
+  AND u1.uuid not in (select liked_user from matches m2 where m2.uuid = user_id)
+  group by u1.uuid, gender, sex_pref, genre, bio, image_profile
+$$ language sql;

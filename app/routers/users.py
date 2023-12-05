@@ -81,19 +81,10 @@ def get_potential_matches(uuid:str, num:int):
         
         user_liked_list = []
         for genders in uuid_gender:
-            temp = matches_crud.get_user_liked(uuid=uuid).data
-            prev_liked = []
-            for i in temp:
-                prev_liked.append(i['liked_user'])
-            desired = users_crud.get_all_desired_user(genders, uuid, prev_liked=prev_liked, num=num/len(genders)).data
-            for i in desired:
-                uid = i['uuid']
-                anime_ids = profile_crud.get_user_animes(uuid=uid).data
-                image_urls = []
-                for aids in anime_ids:
-                    image_urls.append(anime_crud.get_anime(aids['aid']).data[0]['image_url'])
-                i['image_urls'] = image_urls
-                user_liked_list.append(i)
+            desired = users_crud.get_all_desired_user(genders, uuid).data
+            for i in range( min(int(num / len(uuid_gender)), len(desired))):
+                user_liked_list.append(desired[i])
+
         if len(user_liked_list) == 0:
             raise HTTPException(status_code=500, detail="no potential matches")
         else:

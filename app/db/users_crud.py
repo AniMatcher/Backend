@@ -9,8 +9,8 @@ def get_user_by_uuid(uuid: str):
 def get_user_by_email(email: str):
     return table.select("*").eq("email", email).execute()
 
-def post_new_user(profile:Profile):
-    return table.insert({"uuid": profile.uuid, "username": profile.username, "gender": profile.gender, "sex_pref": profile.sex_pref, "genre": profile.genre, "bio": profile.bio, "image_profile": profile.image}).execute()
+def post_new_user(profile:Profile, fake: bool = False):
+    return table.insert({"uuid": profile.uuid, "username": profile.username, "gender": profile.gender, "sex_pref": profile.sex_pref, "genre": profile.genre, "bio": profile.bio, "image_profile": profile.image, "fake": fake}).execute()
 
 def post_blog(text: str, uuid):
     try:

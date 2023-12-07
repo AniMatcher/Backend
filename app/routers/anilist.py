@@ -41,7 +41,7 @@ def create_token(code: str, uuid: str):
         'redirect_uri': redirect_uri,
         'code': code
     }
-    #print(body)
+    print(body)
     res = requests.post(url = 'https://anilist.co/api/v2/oauth/token', json = body)
     if (res.status_code == 200):
         token = res.json()
@@ -56,7 +56,7 @@ def create_token(code: str, uuid: str):
             return {"error": "exception"}, 500
     else: 
         token = res.json()
-        #print(token)
+        print(token)
         return {"error": "exception"}, 500
     
 

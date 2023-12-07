@@ -83,11 +83,11 @@ async def make_user_profile(profile: PostProfile):
         url = s3_crud.upload_image(img_data, file_name)
         print(url)
         profile = Profile(
-            uuid= uuid,
+            uuid=uuid,
             username= username,
             gender= profile.gender,
             sex_pref= profile.sex_pref, 
-            genre= profile.gender,
+            genre= profile.genre,
             bio=profile.bio,
             image=url
         )
@@ -126,11 +126,11 @@ async def make_mock_user_profile(profile: MockProfile):
             username= username,
             gender= profile.gender,
             sex_pref= profile.sex_pref, 
-            genre= profile.gender,
+            genre= profile.genre,
             bio=profile.bio,
             image=profile.image_url
         )
-        response = users_crud.post_new_user(profile = profile)
+        response = users_crud.post_new_user(profile = profile, fake=True)
         if not response:
             raise HTTPException(status_code = 500, detail = "Error creating user")
         return {"message": "Profile created successfully"}

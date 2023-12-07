@@ -82,7 +82,7 @@ async def make_user_profile(profile: PostProfile):
         img_data = BytesIO(base64.b64decode(profile.image.split(";base64,", 1)[1])) #read image bytes
         img_data.seek(0) #resets the buffer
         bucket_name = ""
-        file_name = f"{uuid}_{datetime.now().isoformat().replace(' ','')}.{profile.image_name.split('_')[0].split('.')[1]}"
+        file_name = f"{uuid}_{datetime.now().isoformat().replace(' ','')}.{profile.image_name.rsplit('_',1)[0].rsplit('.',1)[1]}"
         print(file_name)
         url = s3_crud.upload_image(img_data, file_name)
         print(url)

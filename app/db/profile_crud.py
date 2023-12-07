@@ -7,3 +7,6 @@ def post_user_animes(animes: UserAnimes):
 
 def get_user_animes(uuid: str):
     return db_client.client.table("user_animes").select("aid").eq("uuid", uuid).execute()
+
+def get_profile(uuid: str):
+    return db_client.client.rpc('get_user_profile', {'user_id': uuid}).execute()

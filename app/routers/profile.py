@@ -48,19 +48,23 @@ async def get_user_profile(uuid: str):
     if not matched_users.data:
         raise HTTPException(status_code=500, detail="Email not found")
     else: 
-        results =  profile_crud.get_user_animes(uuid).data
-        aids = []
-        for i in results:
-            aids.append(i["aid"])
-        temp_list = anime_crud.get_multiple_anime(aids).data
-        image_urls = dict()
-        for anime in temp_list:
-            image_urls[anime["anime_name"]] = (anime["image_url"])
-        profile_data = users_crud.get_user_by_uuid(uuid).data[0]
-        profile_data['image_urls'] = image_urls
-        metrics = anilist_crud.get_user_metrics(uuid).data
-        if len(metrics) >= 1:
-            profile_data['metrics'] = metrics
+        results = profile_crud.get_profile(uuid).data
+        if len(results) == 0:
+            return {"data": {}}
+        return {"data": results[0]}
+        # results =  profile_crud.get_user_animes(uuid).data
+        # aids = []
+        # for i in results:
+        #     aids.append(i["aid"])
+        # temp_list = anime_crud.get_multiple_anime(aids).data
+        # image_urls = dict()
+        # for anime in temp_list:
+        #     image_urls[anime["anime_name"]] = (anime["image_url"])
+        # profile_data = users_crud.get_user_by_uuid(uuid).data[0]
+        # profile_data['image_urls'] = image_urls
+        # metrics = anilist_crud.get_user_metrics(uuid).data
+        # if len(metrics) >= 1:
+        #     profile_data['metrics'] = metrics
         return profile_data
 
 @router.post("/new-user/")

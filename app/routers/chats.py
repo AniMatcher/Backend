@@ -32,9 +32,9 @@ async def create_chat(data: ChatCreate):
         out = chat_crud.create_new_chat(data.user_a, data.user_b)
     except Exception as e:
         print(e)
-        return {"error": str(e)}
+        return {"error": str(e)}, 400
     else:
-        return out
+        return out.data[0]
 
 @router.get("/user-chats/")
 async def create_chat(uuid: str):
